@@ -22,7 +22,7 @@ RUN apt-get install -y apt-utils \
         echo mysql-community-server mysql-community-server/remove-test-db \
             select true; \
     } | debconf-set-selections \
-    && apt-get install -y nodejs mariadb-client mariadb-server apache2
+    && apt-get install -y nodejs npm mariadb-client mariadb-server apache2
 
 
 
