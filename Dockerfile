@@ -9,6 +9,14 @@ RUN docker-php-ext-install -j$(nproc) mysqli
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
+# Install latest chrome dev package and fonts to support major charsets.
+# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer installs, work. Necessary to generate the critical css.
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-unstable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get install -y apt-utils \
     && { \
